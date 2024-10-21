@@ -1,4 +1,5 @@
 # DNSniffer
+[Русский](README_ru.md)　｜　[English](README.md)
 
 Simple DNS server with web interface, log functions and extra tools.
 
