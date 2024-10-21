@@ -1,0 +1,61 @@
+{{define "body"}}
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Edit Interact Server</h4>
+      <form class="needs-validation" method="POST" action="/api/interact/{{.Interact.Id.Hex}}/edit">
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="server_type" class="form-label">Type</label>
+            <select class="form-select" id="server_type" name="server_type" required>
+              <option value="" disabled>--Choose Type--</option>
+              <option value="ldap" {{if eq .Interact.Type "ldap"}}{{"selected"}}{{end}}>LDAP</option>
+              <option value="http" {{if eq .Interact.Type "http"}}{{"selected"}}{{end}}>HTTP</option>
+              <option value="https" {{if eq .Interact.Type "https"}}{{"selected"}}{{end}}>HTTPS</option>
+              <option value="smtp" {{if eq .Interact.Type "smtp"}}{{"selected"}}{{end}}>SMTP</option>
+              <option value="smtps" {{if eq .Interact.Type "smtps"}}{{"selected"}}{{end}}>SMTPs</option>
+              <option value="ftp" {{if eq .Interact.Type "ftp"}}{{"selected"}}{{end}}> FTP</option>
+              <option value="ftps" {{if eq .Interact.Type "ftps"}}{{"selected"}}{{end}}>FTPs</option>
+              <option value="tcp" {{if eq .Interact.Type "tcp"}}{{"selected"}}{{end}}>Raw tcp</option>
+              <option value="tls" {{if eq .Interact.Type "tls"}}{{"selected"}}{{end}}>Raw tls</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="last_name" class="form-label">Listen IP</label>
+            <input type="text" class="form-control" id="port" name="port" placeholder="" value="{{.Interact.ListenPort}}" required>
+            <div class="invalid-feedback">
+              Listen IP
+            </div>
+          </div>
+
+          <script type="text/javascript">
+          $(document).ready(function() {
+              var val = $('#server_type').val();
+              const sharable = ["http","https","ftp","ftps"]
+              if(sharable.includes(val)) {
+                $('#fileshare').show();
+              } else {
+                $('#fileshare').hide();
+              }
+            }
+          );
+          $('#server_type').change(function() {
+              var val = $(this).val();
+              const sharable = ["http","https","ftp","ftps"]
+              if(sharable.includes(val)) {
+                $('#fileshare').show();
+              } else {
+                $('#fileshare').hide();
+              }
+          });
+          </script>
+          <div class="col-sm-12" id="fileshare" style="display: none;">
+            <input type="checkbox" class="form-check-input" id="sharing" name="sharing">
+            <label class="form-check-label" for="save-info">Enable file sharing</label>
+          </div>
+        <hr class="my-4">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Edit</button>
+      </form>
+    </div>
+  </div>
+{{end}}

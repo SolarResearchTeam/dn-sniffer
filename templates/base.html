@@ -1,0 +1,117 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>GODNS</title>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/search.js"></script>
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/search.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="/css/dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+    
+{{template "header" .}}
+
+<div class="container-fluid">
+  <div class="row">
+    {{template "nav" .}}
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      {{template "body" .}}
+    </main>
+  </div>
+</div>
+  
+    <script src="/js/feather.min.js"></script>
+    <script src="/js/dashboard.js"></script>
+    <script>
+    for (form of document.forms) {
+      form.addEventListener('submit', (event) => {
+        var r_url = event.target.action;
+        var r_method = event.target.method;
+        var r_body = null;
+        if (r_method == "get") {
+          return true;
+        };
+        event.preventDefault();
+        if (event.target.enctype == "multipart/form-data") {
+          r_body = new FormData(event.target);
+        } else {
+          r_body = JSON.stringify(Object.fromEntries(new FormData(event.target).entries()));
+          var r_headers = {
+              "Content-Type": "application/json",
+              "Accept": "application/json"
+          };
+        };
+        fetch(r_url ,{
+            method: r_method,
+            body: r_body,
+            headers: r_headers
+        }).then((response) => {
+            if (response.redirected) {
+              window.location.replace(response.url); 
+              return;
+            };
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            };
+            return response;
+        }).then((body) => {
+
+            if (!body) {
+              return
+             };
+            
+            body.clone().json().then((json) => {
+                if (json.error != "") {
+                  alert(json.error);
+                };
+                if (json.redirect != "") {
+                  window.location = json.redirect;
+                };
+            }).catch(() => {
+                body.text().then((text) => {
+                    document.open()
+                    document.write(text)
+                    document.close()
+                });
+            });
+        }).catch((error) => {
+            alert(error);
+        });
+      });
+    };
+  </script>
+
+
+  </body>
+</html>
+{{end}}

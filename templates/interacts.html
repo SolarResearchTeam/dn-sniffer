@@ -1,0 +1,146 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Intercat Dashboard</h1> 
+      <div class="btn-toolbar mb-2 mb-md-0">
+          {{if $.User.Rights.interacts_share}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/interact/share'">File share</button>
+        </div>
+        {{end}}
+          {{if $.User.Rights.interact_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/interact/new'">Add new...</button>
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Id </th>
+            <th scope="col">Server Type</th>
+            <th scope="col">Listen port</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Interacts}}
+        {{range $index, $server := .Interacts}}
+  {{if $.User.Rights.interact_run}}
+  <div class="modal fade" id="stopModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Interact will be stopped. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+         <form action="/api/interact/{{$server.Id.Hex}}/stop" method="POST">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+ {{if $.User.Rights.interact_delete}}
+<div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Interact will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="/api/interact/{{$server.Id.Hex}}/delete" method="POST">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+ {{if $.User.Rights.interact_clean}}
+<div class="modal fade" id="cleanModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Interact hits will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="/api/interact/{{$server.Id.Hex}}/clear" method="POST">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+          <tr>
+            <td> {{if $.User.Rights.interact_edit}}<a href="/interact/{{$server.Id.Hex}}/edit">{{$server.Id.Hex}}</a>{{else}}{{$server.Id.Hex}}{{end}}</td>
+            <td>{{$server.Type}}<br>{{if $server.Sharing }}Sharing enabled{{if or (eq $server.Type "http") (eq $server.Type "https")}}<br>Share uri: {{$server.Type}}://hostname:{{$server.ListenPort}}/{{$server.Id.Hex}}/{{end}}{{end}}
+              {{if $server.Errors}}
+              <br><div class="alert alert-danger" role="alert">
+        {{$server.Errors}}
+        </div>
+      {{end}}
+    </td>
+            <td>{{$server.ListenPort}}</td>
+            <td>
+            {{range $index, $counter := $.HitsCounts}}
+              {{if eq $index $server.Id.Hex}}
+              <div>Total hits: {{$counter}}</div>
+              {{end}}
+            {{end}}
+              {{if $.User.Rights.interact_view}}
+              <a id="show_{{$server.Id.Hex}}" href="/interact/{{$server.Id.Hex}}/hits">
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Show</button>
+              </a>
+              {{end}}
+            </td>
+            <td>
+              <form action='/api/interact/{{$server.Id.Hex}}/start' method="POST">
+              <div class="btn-group-vertical">
+              {{if $.User.Rights.interact_run}}
+                {{if $server.Running }}
+                  <button type="button" class="btn btn-sm  btn-danger" data-bs-toggle="modal" data-bs-target="#stopModal{{$index}}" >Stop</button>
+                {{else}}
+                     <button type="submit" class="btn btn-sm btn-success">Start</button>
+                {{end}}
+              {{end}}
+              {{if $.User.Rights.interact_clean}}
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#cleanModal{{$index}}">Clean</button>
+              {{end}}
+              {{if $.User.Rights.interact_delete}}
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button>
+              {{end}}
+                </div>
+               </form>
+              </div>
+            </td>
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

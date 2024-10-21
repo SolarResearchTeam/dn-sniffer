@@ -1,0 +1,92 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">DNS BlackHole</h1> 
+      {{if $.User.Rights.blackhole_create}}
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/blackhole/new'">Add new...</button>
+        </div>
+      </div>
+     {{end}}
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Domain</th>
+            <th scope="col">From IP</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .BlackHole}}
+        {{range $index, $rebind := .BlackHole}}
+  
+  {{if $.User.Rights.blackhole_delete}}
+  <div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Blackhole will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <form action="/api/blackhole/{{$rebind.Id.Hex}}/delete" method="post">
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+{{if $.User.Rights.blackhole_clean}}
+<div class="modal fade" id="cleanModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        All associated hits will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             <form action="/api/blackhole/{{$rebind.Id.Hex}}/clear" method="post">
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+          <tr>
+            <td>{{$rebind.Domain}}</td>
+            <td>{{$rebind.FromIP}}</td>
+            <td> {{if $.User.Rights.blackhole_edit}}
+              <button type="button" onclick="location.href='/blackhole/{{$rebind.Id.Hex}}/edit';" class="btn btn-sm btn-outline-secondary">Edit</button>
+              {{end}}
+           </td>
+             <td>
+{{if $.User.Rights.blackhole_clean}}<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#cleanModal{{$index}}">Clean</button>{{end}}
+            </td>
+            <td>
+  {{if $.User.Rights.blackhole_delete}}<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button>{{end}}
+            </td>
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

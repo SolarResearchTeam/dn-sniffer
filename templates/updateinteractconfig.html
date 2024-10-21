@@ -1,0 +1,25 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Interacts Config</h4>
+      <form class="needs-validation" action="/interact/updateconfig"  method="POST">    
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="last_name" class="form-label">Listen IP</label>
+            <input type="text" class="form-control" id="listenip" name="listenip" placeholder="" value="{{.Config.Interact.ListenIP}}">
+            <div class="invalid-feedback">
+              Listen IP is required.
+            </div>
+          </div>
+        </div>
+
+
+
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg"  type="submit">Save Config</button>
+      </form>
+    </div>
+  </div>
+{{end}}

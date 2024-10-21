@@ -1,0 +1,102 @@
+{{define "body"}}
+  <script type="text/javascript">
+  function addNewServer() {
+    var tbodyRef = document.getElementById('relays-table').getElementsByTagName('tbody')[0];
+    var ipaddr = document.getElementById('domain').value;
+    var newRow = tbodyRef.insertRow();
+    var newInputCell = newRow.insertCell();
+    var newInput = document.createElement("input");
+    newInput.setAttribute("type","checkbox");
+    newInput.setAttribute("id","primary_zone");
+    newInput.setAttribute("name","primary_zone");
+    newInput.setAttribute("checked",true);
+    newInput.setAttribute("value",ipaddr);
+    newInputCell.appendChild(newInput);
+    var newDescCell = newRow.insertCell();
+    var newText = document.createTextNode(ipaddr);
+    newDescCell.appendChild(newText);
+    $('#addDomainModal').modal('hide');
+  }
+</script>
+
+<div class="modal fade" id="addDomainModal" tabindex="-1" aria-labelledby="addRelayModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addRelayModalLabel">Add domain </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+        <label for="serverAddress" class="col-sm-3 col-form-label">Name:</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="domain" id="domain" value="" placeholder="domain">
+          <hr class="my-4">
+            <button class="btn btn-secondary" onclick="addNewServer()">Add</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">DNS Config</h4>
+      <form class="needs-validation" action="/zones/updatednsconfig"  method="POST">    
+          <div class="row g-3">
+          <div class="col-12">
+              <label for="primary_zone" class="table-label">Primary Zone</label>
+                <!-- <table id="relays-table" class="table">
+                    <thead>
+                      <tr>
+                       <th scope="col">Use</th>
+                       <th scope="col">Domain</th>
+                       <th scope="col"> <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addDomainModal"><span data-feather="plus-circle"></span></button></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        {{if .Config.DNS.PrimaryZone}}
+                        {{range $index, $domain := .Config.DNS.PrimaryZone}}
+                        <tr>
+                        <td>
+                           <input type="checkbox" id="primary_zone" name="primary_zone" checked value="{{$domain}}" />
+                        </td>
+                        <td>
+                          {{$domain}}
+                        </td>
+                        </tr>
+                       {{end}}
+                       {{end}}
+                      </tbody>
+                    </table>-->
+                  <input type="text" class="form-control" id="primary_zone" name="primary_zone" placeholder="" value="{{if .Config.DNS.PrimaryZone}}{{range $index, $domain := .Config.DNS.PrimaryZone}}{{$domain}},{{end}}{{end}}">
+              </div>    
+            </div>
+
+          <div class="col-sm-6">
+            <label for="last_name" class="form-label">Answer IP</label>
+            <input type="text" class="form-control" id="answerip" name="answerip" placeholder="" value="{{.Config.DNS.AnswerIP}}">
+            <div class="invalid-feedback">
+              Answer IP is required.
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="username" class="form-label">TTL</label>
+            <div class="input-group has-validation">
+              <input type="text" class="form-control" id="ttl" name="ttl" placeholder="" value="{{.Config.DNS.TTL}}">
+            <div class="invalid-feedback">
+                TTL is required.
+              </div>
+            </div>
+          </div>
+
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg"  type="submit">Save Config</button>
+      </form>
+    </div>
+  </div>
+{{end}}

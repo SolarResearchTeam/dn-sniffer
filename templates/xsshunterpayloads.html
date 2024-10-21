@@ -1,0 +1,25 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">XSS Hunter Payload</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped table-sm results">
+        <tbody>
+          <tr>
+            <div class="col-12">
+                <div class="card card-body">
+                  <label for="last_name" class="form-label">XSS Payloads</label>
+                  <textarea type="text" class="form-control" rows="4" id="xss-payload" name="xss-payload" placeholder="" disabled readonly>{{$.Settings.Setting.Payload.Sample}}</textarea>
+                  <label for="last_name" class="form-label">Payload</label>
+                  <textarea type="text" class="form-control" rows="15" id="payload" name="payload" placeholder="" disabled readonly>{{$.Settings.Setting.Payload.Payload}}</textarea>
+                </div>
+              </div>
+          </tr>
+
+          <hr class="my-4">
+        </tbody>
+      </table>
+    </div>
+{{end}}

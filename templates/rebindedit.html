@@ -1,0 +1,45 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Edit Rebind domain</h4>
+      <form class="needs-validation" method="POST" action="/api/rebind/{{.Rebind.Id.Hex}}/edit">
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="zone_name" class="form-label">Domain</label>
+            <input type="text" class="form-control" id="rebind_domain" name="rebind_domain" placeholder="" value="{{.Rebind.Domain}}" required>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="last_name" class="form-label">Rebind IP From</label>
+            <input type="text" class="form-control" id="from_ip" name="from_ip" placeholder="" value="{{.Rebind.FromIP}}" required>
+            <div class="invalid-feedback">
+              From IP
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="last_name" class="form-label">Rebind IP To</label>
+            <input type="text" class="form-control" id="to_ip" name="to_ip" placeholder="" value="{{.Rebind.ToIP}}" required>
+            <div class="invalid-feedback">
+              To IP
+            </div>
+          </div>
+        
+          <hr class="my-4">
+
+          <div class="col-sm-5">
+            <label for="username" class="form-label">Rebind TTL</label>
+            <div class="input-group has-validation">
+              <input type="text" class="form-control" id="time" name="time" placeholder="" value="{{.Rebind.Time}}" required>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+{{end}}

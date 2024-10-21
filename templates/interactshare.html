@@ -1,0 +1,68 @@
+{{define "body"}}
+
+<div class="modal fade" id="fileUploadModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Select File for Upload</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/api/interact/share/upload" id="uploadForm"  enctype="multipart/form-data" method="post">
+          <input type="file" id="upload" name="filex"/>
+        </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" form="uploadForm" class="btn btn-primary">Submit</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Intercat Dashboard</h1> 
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group me-2">
+            <label for='upload'>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#fileUploadModal">Upload new...</button>
+            </label>
+        </div>
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/interacts'">Interact servers</button>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Filename </th>
+            <th scope="col">Size</th>
+            <th scope="col">Last modified</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Files}}
+        {{range $index, $file := .Files}}
+          <tr>
+            <td>{{$file.Name}}</td>
+            <td>{{$file.Size}} B</td>
+            <td>{{$file.LastMod}}</td>
+            <td>
+              <form action="/api/interact/share/delete" method="post">
+                <input type="txt" id="filename" name="filename" value="{{$file.Name}}" hidden>
+                <button type="submit" class="btn btn-sm btn-outline-secondary">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

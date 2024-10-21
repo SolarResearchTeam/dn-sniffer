@@ -1,0 +1,38 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <style>
+* {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to bottom right, #EEE, #EEE);
+}
+
+h1 {
+  margin: 40px 0 20px;
+}
+    </style>
+  </head>
+  <body class="error">
+    <div class="message">
+      <h1>Access to this page is restricted</h1>
+    </div>
+</body>
+
+  </html>
+  {{end}}

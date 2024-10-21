@@ -1,0 +1,97 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">XSS Hunter Dashboard</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        {{if $.User.Rights.xsshunter_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/xsshunter/new'">Add new...</button> 
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+
+            <th scope="col">URL</th>
+            <th scope="col">Name</th>
+            <th scope="col">Token</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Settings}}
+        {{range $index, $hn := .Settings}}
+          <tr>
+            {{if $.User.Rights.xsshunter_clean}}
+            <div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    XSS Hunter will be deleted, hits will be cleaned. Are u REALLY sure?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <form action="/api/xsshunter/{{$hn.UUID}}/delete" method="post" novalidate>
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{end}}
+            {{if $.User.Rights.xsshunter_delete}}
+            <div class="modal fade" id="cleanModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    All associated hits will be deleted. Are u REALLY sure?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                         <form action="/api/xsshunter/{{$hn.UUID}}/clean" method="post" novalidate>
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                     </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {{end}}
+            
+            <td>{{$hn.MotherShipUrl}}</td>
+            <td>{{$hn.Name}}</td>
+            <td>{{$hn.MotherShipToken}}</td>
+            <td>
+               {{if $.User.Rights.xsshunter_view}}
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/xsshunter/{{$hn.UUID}}/hits'">Hits</button>
+              {{end}}
+               {{if $.User.Rights.xsshunter_payload_view}}
+              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/xsshunter/{{$hn.UUID}}/payloads'">Payloads</button>
+              {{end}}
+            </td>
+            <td>
+               {{if $.User.Rights.xsshunter_clean}}
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#cleanModal{{$index}}">Clean</button>
+              {{end}}
+              {{if $.User.Rights.xsshunter_delete}}
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button></td>
+              {{end}}
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

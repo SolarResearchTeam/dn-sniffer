@@ -1,0 +1,318 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">User Info</h4>
+      <form class="needs-validation" method="POST" action="/api/users/new">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid first name is required.
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="last_name" class="form-label">Last name</label>
+            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="username" class="form-label">Username</label>
+            <div class="input-group has-validation">
+              <input type="text" class="form-control" id="username" name="username" placeholder="" required>
+            <div class="invalid-feedback">
+                Your username is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
+            <div class="invalid-feedback">
+              Please enter a valid email address for user.
+            </div>
+          </div>
+
+
+          <hr class="my-4">
+          <div class="col-12">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="">
+          </div>
+          <div class="col-12">
+            <label for="confirm" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="confirm" name="confirm" placeholder="">
+          </div>
+
+          <hr class="my-4">
+          <div class="col-md-5">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role" required>
+              <option value="">Choose...</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="custom">Custom</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid role.
+            </div>
+          </div>
+          <div class="col-12" id="rigths_div">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Zones</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zones_view" value="zones_view"  {{if .Rights.zones_view}}checked{{end}}>
+                  <label class="form-check-label" >View all zones</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zone_view" value="zone_view"  {{if .Rights.zone_view}}checked{{end}}>
+                  <label class="form-check-label" >View zone hits</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zones_edit" value="zones_edit"  {{if .Rights.zones_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit dns(zones) config</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zone_edit" value="zone_edit"  {{if .Rights.zone_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit zones</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zone_create" value="zone_create"  {{if .Rights.zone_create}}checked{{end}}>
+                  <label class="form-check-label" >Create zones</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zone_delete" value="zone_delete"  {{if .Rights.zone_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete zones</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="zone_clean" value="zone_clean"  {{if .Rights.zone_clean}}checked{{end}}>
+                  <label class="form-check-label" >Clean zones</label>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Rebinds</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="rebind_view" value="rebind_view"  {{if .Rights.rebind_view}}checked{{end}}>
+                  <label class="form-check-label" >View all rebinds</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="rebind_edit" value="rebind_edit"  {{if .Rights.rebind_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit rebind</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="rebind_create" value="rebind_create"  {{if .Rights.rebind_create}}checked{{end}}>
+                  <label class="form-check-label" >Create rebind</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="rebind_delete" value="rebind_delete"  {{if .Rights.rebind_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete rebind</label>
+                </div>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Blackhole</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="blackhole_view" value="blackhole_view"  {{if .Rights.blackhole_view}}checked{{end}}>
+                  <label class="form-check-label" >View all blackholes</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="blackhole_edit" value="blackhole_edit"  {{if .Rights.blackhole_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit blackhole</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="blackhole_create" value="blackhole_create"  {{if .Rights.blackhole_create}}checked{{end}}>
+                  <label class="form-check-label" >Create blackhole</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="blackhole_delete" value="blackhole_delete"  {{if .Rights.blackhole_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete blackhole</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="blackhole_clean" value="blackhole_clean"  {{if .Rights.blackhole_clean}}checked{{end}}>
+                  <label class="form-check-label" >Clean blackhole</label>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Records</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="records_view" value="records_view"  {{if .Rights.records_view}}checked{{end}}>
+                  <label class="form-check-label" >View all records</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="record_edit" value="record_edit"  {{if .Rights.record_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit records</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="record_create" value="record_create"  {{if .Rights.record_create}}checked{{end}}>
+                  <label class="form-check-label" >Create records</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="record_delete" value="record_delete"  {{if .Rights.record_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete records</label>
+                </div>
+              </div>
+            </div>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Interacts</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interacts_view" value="interacts_view"  {{if .Rights.interacts_view}}checked{{end}}>
+                  <label class="form-check-label" >View all Interacts</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_view" value="interact_view"  {{if .Rights.interact_view}}checked{{end}}>
+                  <label class="form-check-label" >View Interact Hits</label>
+                </div>
+                <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="rights" name="interacts_share" value="interacts_share"  {{if .Rights.interact_edit_config}}checked{{end}}>
+                <label class="form-check-label" >Edit interact global config</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_edit" value="interact_edit"  {{if .Rights.interacts_share}}checked{{end}}>
+                  <label class="form-check-label" >Interact FileSharing</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_edit_config" value="interact_edit_config"  {{if .Rights.interact_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit interacts</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_create" value="interact_create"  {{if .Rights.interact_create}}checked{{end}}>
+                  <label class="form-check-label" >Create interacts</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_delete" value="interact_delete"  {{if .Rights.interact_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete interacts</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_clean" value="interact_clean"  {{if .Rights.interact_clean}}checked{{end}}>
+                  <label class="form-check-label" >Clean interacts</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="interact_run" value="interact_run"  {{if .Rights.interact_run}}checked{{end}}>
+                  <label class="form-check-label" >Start/stop nteracts</label>
+                </div>
+              </div>
+             
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">XSShunter</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunters_view" value="xsshunters_view"  {{if .Rights.xsshunters_view}}checked{{end}}>
+                  <label class="form-check-label" >View all XSShunters</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_view" value="xsshunter_view"  {{if .Rights.xsshunter_view}}checked{{end}}>
+                  <label class="form-check-label" >View XSShunters Hits</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_payload_view" value="xsshunter_payload_view"  {{if .Rights.xsshunter_payload_view}}checked{{end}}>
+                  <label class="form-check-label" >View XSShunter Payloads</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_payload_create" value="xsshunter_payload_create"  {{if .Rights.xsshunter_payload_create}}checked{{end}}>
+                  <label class="form-check-label" >Create XSShunter Payload</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_edit" value="xsshunter_edit"  {{if .Rights.xsshunter_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit XSShunter</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_create" value="xsshunter_create"  {{if .Rights.xsshunter_create}}checked{{end}}>
+                  <label class="form-check-label" >Create XSShunter</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_delete" value="xsshunter_delete"  {{if .Rights.xsshunter_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete XSShunter</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="xsshunter_clean" value="xsshunter_clean"  {{if .Rights.xsshunter_clean}}checked{{end}}>
+                  <label class="form-check-label" >Clean XSShunter</label>
+                </div>
+
+              </div>
+            </div>
+            <div class="row g-3">
+               <div class="col-sm-6">
+                <label for="first_name" class="form-label">Users</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="users_list" value="users_list"  {{if .Rights.users_list}}checked{{end}}>
+                  <label class="form-check-label" >View all users</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="user_edit" value="user_edit"  {{if .Rights.user_edit}}checked{{end}}>
+                  <label class="form-check-label" >Edit users</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="user_create" value="user_create"  {{if .Rights.user_create}}checked{{end}}>
+                  <label class="form-check-label" >Create users</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="user_delete" value="user_delete"  {{if .Rights.user_delete}}checked{{end}}>
+                  <label class="form-check-label" >Delete users</label>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <label for="first_name" class="form-label">Misc</label>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="account_view" value="account_view"  {{if .Rights.account_view}}checked{{end}}>
+                  <label class="form-check-label" >Own account info/passchange</label>
+                </div>
+                 <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="logs" value="logs"  {{if .Rights.logs}}checked{{end}}>
+                  <label class="form-check-label" >Show logs</label>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="rights" name="certs" value="certs"  {{if .Rights.certs}}checked{{end}}>
+                  <label class="form-check-label" >SSL certs menu</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+          $(document).ready(function() {
+              var val = $('#role').val();
+              if(val == "custom") {
+                $('#rigths_div').show();
+              } else {
+                $('#rigths_div').hide();
+              }
+            }
+          );
+          $('#role').change(function() {
+              var val = $(this).val();
+              if (val == "custom"){
+                $('#rigths_div').show();
+              } else {
+                $('#rigths_div').hide();
+              }
+          });
+          </script>
+
+
+        </div>
+
+        <hr class="my-4">
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="locked" name="locked">
+          <label class="form-check-label" for="same-address" for="locked">Locked</label>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="passwordchangerequired" name="passwordchangerequired">
+          <label class="form-check-label" for="save-info">Password change required</label>
+        </div>
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+{{end}}

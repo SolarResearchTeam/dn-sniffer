@@ -1,0 +1,124 @@
+{{define "nav"}}
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3">
+      <ul class="nav flex-column">
+        <div class="separator">Main Section</div>
+
+        {{if $.User.Rights.zones_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/zones">
+            <span data-feather="package"></span>
+            DNS Logs
+          </a>
+        </li>
+        {{end}}
+
+         {{if $.User.Rights.records_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/records">
+            <span data-feather="book"></span>
+            DNS Records
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.records_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/rebind">
+            <span data-feather="repeat"></span>
+            DNS Rebind
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.blackhole_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/blackhole">
+            <span data-feather="aperture"></span>
+            DNS BlackHole
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.interacts_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/interacts">
+            <span data-feather="rss"></span>
+            Interacts Servers
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.xsshunters_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/xsshunter">
+            <span data-feather="gitlab"></span>
+            XSS Hunter
+          </a>
+        </li> 
+        {{end}}
+
+        <div class="separator">Admin Area</div>
+
+         {{if $.User.Rights.users_list}}
+        <li class="nav-item">
+          <a class="nav-link" href="/users">
+            <span data-feather="users"></span>
+            Users
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.zones_edit}}
+        <li class="nav-item">
+          <a class="nav-link" href="/zones/updatednsconfig">
+            <span data-feather="sliders"></span>
+            Update DNS Config
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.interact_edit_config}}
+        <li class="nav-item">
+          <a class="nav-link" href="/interact/updateconfig">
+            <span data-feather="codepen"></span>
+            Update Interact Config
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.logs}}
+        <li class="nav-item">
+          <a class="nav-link" href="/logs">
+            <span data-feather="meh"></span>
+            Logs
+          </a>
+        </li>
+        {{end}}
+
+        {{if $.User.Rights.certs}}
+        <li class="nav-item">
+          <a class="nav-link" href="/certs">
+            <span data-feather="file-text"></span>
+            SSL certs
+          </a>
+        </li>
+        {{end}}
+
+        <div class="separator">Personal Settings</div>
+        
+        {{if $.User.Rights.account_view}}
+        <li class="nav-item">
+          <a class="nav-link" href="/account">
+            <span data-feather="user"></span>
+            Account
+          </a>
+        </li> 
+        {{end}}
+        
+      </ul>
+
+    </div>
+  </nav>
+{{end}}

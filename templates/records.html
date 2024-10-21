@@ -1,0 +1,67 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">DNS Records</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        {{if $.User.Rights.record_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/records/new'">Add new record...</button>
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-striped results table-sm">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Type</th>
+            <th scope="col">TLD</th>
+            <th scope="col">Value</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Records}}
+        {{range $index, $record := .Records}}
+          
+{{if $.User.Rights.record_delete}}
+<div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Reacord will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="/api/record/{{$record.Id.Hex}}/delete" method="post">
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+
+          <tr>
+            <td>{{if $.User.Rights.record_edit}}<a href="/records/{{$record.Id.Hex}}/edit">{{$record.Id.Hex}}{{else}}{{$record.Id.Hex}}{{end}}</a></td>
+            <td>{{$record.Type}}</td>
+            <td>{{$record.TLD}}</td>
+            <td>{{$record.Value}}</td>
+            <td>
+              {{if $.User.Rights.record_delete}}
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button>
+              {{end}}
+            </td>
+            </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+    </div>
+{{end}}

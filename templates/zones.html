@@ -1,0 +1,97 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">DNS Logs</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        {{if $.User.Rights.zone_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/zone/new'">Add new group...</button>
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <form action="/zone/all/hits" method="GET">
+        <input type="text" name="q" class="form-control" placeholder="What you looking for?">
+      </form>
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+
+            <th scope="col">Name</th>
+            <th scope="col">TLD</th>
+            <th scope="col">Total Hits</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Zones}}
+        {{range $index, $zone := .Zones}}
+  {{if $.User.Rights.zone_delete}}
+  <div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Zone will be deleted, hits will be cleaned. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <form action="/api/zone/{{$zone.Id}}/delete" method="post" novalidate>
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+{{if $.User.Rights.zone_clean}}
+<div class="modal fade" id="cleanModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        All associated hits will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+             <form action="/api/zone/{{if ne $zone.Name "other"}}{{$zone.Id}}{{else}}other{{end}}/clean" method="post" novalidate>
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+          <tr>
+            <td>{{if $.User.Rights.zone_view}}<a href="/zone/{{$zone.Id}}/hits">{{$zone.Name}}{{else}}{{$zone.Name}}{{end}}</a></td>
+            <td>{{$zone.TLD}}</td>
+            <td>{{$zone.TotalHits}}</td>
+            <td>
+            {{if ne $zone.Name "all"}}
+{{if $.User.Rights.zone_clean}}
+<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#cleanModal{{$index}}">Clean</button>
+{{end}}
+            {{end}}
+            </td>
+            <td> 
+            {{if and (ne $zone.Name "all") (ne $zone.Name "other")}}
+{{if $.User.Rights.zone_delete}}
+<button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button>
+{{end}}
+            {{end}}
+             </td>
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

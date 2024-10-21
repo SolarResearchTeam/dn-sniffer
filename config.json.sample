@@ -1,0 +1,66 @@
+{
+ "web_server": {
+  "webserver_url": "0.0.0.0:443",
+  "hostname": "0.0.0.0",
+  "use_tls": true,
+  "whitelist": [
+   "*"
+  ]
+ },
+ "mongo_db": {
+  "main_db_name": "dnsgo_main",
+  "dns_db_name": "dnsgo_dns",
+  "dns_hits_db_name": "dnsgo_dns_hits",
+  "interact_db_name": "dnsgo_interact",
+  "xsshunter_db_name": "dnsgo_xsshunter",
+  "db_path": "mongodb://127.0.0.1:27017/",
+  "db_user": "dnsniffer",
+  "db_password": "dnsniffer"
+ },
+ "dns": {
+  "primary_zone": [
+   "test.com"
+  ],
+  "use_tcp": true,
+  "use_udp": true,
+  "tcpport": "53",
+  "udpport": "53",
+  "listenip": "0.0.0.0",
+  "answerip": "1.2.3.4",
+  "ttl": 600
+ },
+ "interact": {
+  "listen_ip": "0.0.0.0",
+  "share_dir": "/tmp/"
+ },
+ "smtp": {
+  "from": "dns@test.local",
+  "smtp_server_address": "10.10.20.15",
+  "smtp_server_port": 25,
+  "smtp_server_username": "",
+  "smtp_server_password": "",
+  "use_tls": false,
+  "verify_tls": false
+ },
+ "xsshunter": {
+  "xsshunter_url": "0.0.0.0:443",
+  "use_tls": true
+ },
+ "ssl": {
+  "path": "certs"
+ },
+ "cookie": {
+    "name":"dnsniffer",
+    "path":"/",
+    "maxage":86400,
+    "domain":""
+ },
+  "oidc":{
+   "enabled":false,
+   "provider_name":"keycloak",
+   "oidc_url":"https://keycloak/realms/test",
+   "client_id":"dnsniffer",
+   "cleint_secret":"secret",
+   "create_users":true
+ }
+}

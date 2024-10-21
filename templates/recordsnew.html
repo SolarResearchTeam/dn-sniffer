@@ -1,0 +1,45 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">New DNS Record</h4>
+      <form class="needs-validation" method="POST" action="/api/record/new">
+        <div class="row g-3">
+        
+          <hr class="my-4">
+
+          <div class="col-sm-12">
+            <label for="username" class="form-label">TLD</label>
+            <div class="input-group has-validation">
+              <input type="text" class="form-control" id="tld" name="tld" placeholder="" required>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="role" class="form-label">Type</label>
+            <select class="form-select" id="type" name="type" required>
+              <option value="">--Select type--</option>
+              <option value="A">A</option>
+              <option value="AAAA">AAAA</option>
+              <option value="MX">MX</option>
+              <option value="TXT">TXT</option>
+              <option value="NS">NS</option>
+              <option value="CNAME">CNAME</option>
+              <option value="PTR">PTR</option>
+            </select>
+          </div> 
+
+          <div class="col-sm-12">
+            <label for="value" class="form-label">Value</label>
+            <input type="text" class="form-control" id="value" name="value" placeholder="" required>
+          </div>
+
+
+        </div>
+
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+{{end}}

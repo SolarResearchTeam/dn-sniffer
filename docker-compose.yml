@@ -1,0 +1,25 @@
+version: '3.2'
+
+services:
+  server: 
+    build: .
+    container_name: 'dnsniffer'
+    tty: true
+    network_mode: 'host'
+    volumes:
+     - ./:/usr/src/app/
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: 'dnsniffer-db'
+    restart: always
+    ports:
+      - "127.0.0.1:27017:27017/tcp"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dnsniffer
+      MONGO_INITDB_ROOT_PASSWORD: dnsniffer
+    volumes:
+      - ./mongo/db:/data/db
+      - ./mongo/config:/data/configdb

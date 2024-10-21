@@ -1,0 +1,11 @@
+
+  
+  .results tr[visible='false'],
+  .no-result{
+    display:none;
+  }
+  
+  .results tr[visible='true']{
+    display:table-row;
+  }
+  

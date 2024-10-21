@@ -1,0 +1,77 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">New SSL cert</h4>
+      <form class="needs-validation" method="POST" action="/api/ssl/new" enctype="multipart/form-data">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="mb-3">
+            <label for="first_name" class="form-label">Domian name</label>
+            <input type="text" class="form-control" id="first_name" name="name" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Valid first Domian is required.
+            </div>
+          </div>
+            <div class="form-check" class="mb-3">
+                  <input type="checkbox" class="form-check-input" id="renew" name="renew" value="yep">
+                <label class="form-check-label" >Auto renew with Let's Encrypt</label>
+            </div>
+          </div>
+
+          <hr class="my-4">
+          <div class="col-md-5">
+            <label for="generate" class="form-label">Type</label>
+            <select class="form-select" id="generate" name="generate" required>
+              <option value="">Choose...</option>
+              <option value="nooo">Manual</option>
+              <option value="yaaaas">Generate with Let's Encrypt</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a valid type.
+            </div>
+          </div>
+
+          <div class="col-12" id="upload_div">
+            <div class="mb-3">
+            <label for='cert'>
+              Cert file (in PEM format)
+            </label>
+            <input class="form-control" type="file" id="cert" name="cert"/>
+          </div>
+ 
+            <div class="mb-3">
+            <label for='key' class="form-label">
+              Key file (in PEM format)
+            </label>
+            <input class="form-control" type="file" id="key" name="key"/>
+          </div>
+          </div>
+
+          <hr class="my-4">
+
+          <script type="text/javascript">
+          $(document).ready(function() {
+              var val = $('#role').val();
+              if(val == "nooo") {
+                $('#upload_div').show();
+              } else {
+                $('#upload_div').hide();
+              }
+            }
+          );
+          $('#generate').change(function() {
+              var val = $(this).val();
+              if (val == "nooo"){
+                $('#upload_div').show();
+              } else {
+                $('#upload_div').hide();
+              }
+          });
+          </script>
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
+      </form>
+    </div>
+  </div>
+{{end}}

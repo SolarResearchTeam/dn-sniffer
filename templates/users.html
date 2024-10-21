@@ -1,0 +1,56 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Users Dashboard</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        {{if $.User.Rights.user_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/users/new'">Add new...</button>
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-striped results table-sm">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Username</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Locked</th>
+            <th scope="col">Role</th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Users}}
+        {{range $index, $user := .Users}}
+          <tr>
+            <td> {{if $.User.Rights.user_edit}}<a href="/users/{{$user.Id.Hex}}">{{$user.Id.Hex}}{{else}}{{$user.Id.Hex}}{{end}}</a></td>
+            <td>{{$user.Username}}</td>
+            <td>{{$user.FirstName}}</td>
+            <td>{{$user.LastName}}</td>
+            <td>{{$user.Email}}</td>
+            {{if $user.IsLocked}}
+            <td><div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" checked disabled>
+                <label class="form-check-label" for="flexCheckCheckedDisabled">
+
+                </label>
+              </div></td>
+            {{else}}
+            <td><div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckCheckedDisabled" disabled>
+                <label class="form-check-label" for="flexCheckCheckedDisabled">
+                </label>
+            </div></td>
+            {{end}}
+            <td>{{$user.Role}}</td>
+            </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+    </div>
+{{end}}

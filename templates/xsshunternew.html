@@ -1,0 +1,30 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">New XSS Hunter</h4>
+      <form class="needs-validation" method="POST" action="/api/xsshunter/new" validate>
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="hunter_name" class="form-label">Primary Domain name</label>
+            <input type="text" class="form-control" id="primary_domain" name="primary_domain" placeholder="example.com" value="" required>
+            <div class="invalid-feedback">
+              Primary domains name is required.
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <label for="hunter_name" class="form-label">Hunter name</label>
+            <input type="text" class="form-control" id="hunter_name" name="hunter_name" placeholder="example name" value="" required>
+            <div class="invalid-feedback">
+              Valid hunter name is required.
+            </div>
+          </div>
+        </div>
+        <hr class="my-4">
+        <div class="col-sm-12">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Create</button>
+      </div>
+      </form>
+    </div>
+  </div>
+{{end}}

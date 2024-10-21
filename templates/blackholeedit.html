@@ -1,0 +1,31 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Edit BlackHole</h4>
+      <form class="needs-validation" method="POST" action="/api/blackhole/{{.BlackHole.Id.Hex}}/edit">
+        <div class="row g-3">
+          <div class="col-sm-12">
+            <label for="domain" class="form-label">Domain</label>
+            <input type="text" class="form-control" id="domain" name="domain" placeholder="example.com" value="{{.BlackHole.Domain}}" required>
+            <div class="invalid-feedback">
+              BlackHole domain name is required. 
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="ip" class="form-label">BlackHole From IP</label>
+            <input type="text" class="form-control" id="ip" name="ip" placeholder="127.0.0.1" value="{{.BlackHole.FromIP}}" required>
+            <div class="invalid-feedback">
+              From IP
+            </div>
+          </div>
+        <hr class="my-4">
+        <div class="col-sm-6">
+            <span>Can use * in params to ban all things</span>
+        </div>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+{{end}}

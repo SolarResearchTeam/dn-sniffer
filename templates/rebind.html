@@ -1,0 +1,72 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">DNS Rebind</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        {{if $.User.Rights.rebind_create}}
+        <div class="btn-group me-2">
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="window.location='/rebind/new'">Add new...</button>
+        </div>
+        {{end}}
+      </div>
+    </div>
+    <div class="table-responsive">
+      <input type="text" class="search form-control" id="searchjs" placeholder="What you looking for?">
+      <table class="table table-hover results table-striped table-sm">
+        <thead>
+          <tr>
+            <th scope="col">Domain</th>
+            <th scope="col">From IP</th>
+            <th scope="col">To IP</th>
+            <th scope="col">Time</th>
+            <th scope="col">Last Request</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {{if .Rebinds}}
+        {{range $index, $rebind := .Rebinds}}
+
+  {{if $.User.Rights.rebind_delete}}
+  <div class="modal fade" id="deleteModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Are u sure?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Rebind will be deleted. Are u REALLY sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <form action="/api/rebind/{{$rebind.Id.Hex}}/delete" method="post">
+         <button type="submit" class="btn btn-primary">Submit</button>
+         </form>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}}
+          <tr>
+            <td>{{$rebind.Domain}}</td>
+            <td>{{$rebind.FromIP}}</td>
+            <td>{{$rebind.ToIP}}</td>
+            <td>{{$rebind.Time}}</td>
+            <td>{{$rebind.LastRequest}}</td>
+            <td> {{if $.User.Rights.rebind_edit}}
+              <button type="button" onclick="location.href='/rebind/{{$rebind.Id.Hex}}/edit';" class="btn btn-sm btn-outline-secondary">Edit</button>
+              {{end}}
+           </td>
+            <td> {{if $.User.Rights.rebind_delete}}
+               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal{{$index}}">Delete</button>
+               {{end}}
+            </td>
+          </tr>
+          {{end}}
+        {{end}}
+        </tbody>
+      </table>
+
+    </div>
+{{end}}

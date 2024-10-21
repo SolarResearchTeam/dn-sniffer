@@ -1,0 +1,116 @@
+{{define "body"}}
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">XSS Hunter Hits</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+      </div>
+    </div>
+    <div class="table-responsive">
+                  <table class="table table-striped table-sm results">
+                    <thead>
+                      <tr>
+                        <th scope="col">Time</th>
+                        <th scope="col">Ip</th>
+                        <th scope="col">Uri</th>
+                        <th scope="col">PageHTML</th>
+                        <th scope="col">Cookie</th>
+                        <th scope="col">UserAgent</th>
+                        <th scope="col">Origin</th>
+                        <th scope="col">Screen</th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+                      {{if .Settings.Hits}}
+                      {{range $index, $hit := .Settings.Hits}}
+                        <tr>
+                          <td>{{$hit.Time}}</td>
+                          <td>{{$hit.IP}}</td>
+                          <td><div style="white-space: pre-wrap;"><samp><div class="uk-container uk-container-small" style="overflow-y: scroll; max-height:300px; max-width: 300px;" rows="6">{{$hit.Uri}}</div></samp></div></td>
+                          
+                          <td>
+                            <div id="full_html{{$index}}" class="modal">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5>
+                                    Full HTML
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div style="white-space: pre-wrap;"><samp><div class="uk-container uk-container-small" style="overflow-y: scroll; max-height:300px;" rows="6">{{$hit.PageHTML}}</div></samp></div>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#full_html{{$index}}">Show</button>
+                          </td>
+
+                          <td>
+                            <div id="full_cookie{{$index}}" class="modal">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5>
+                                    Cookie
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div style="white-space: pre-wrap;"><samp><div class="uk-container uk-container-small" style="overflow-y: scroll; max-height:300px;" rows="6">{{$hit.Cookies}}</div></samp></div>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#full_cookie{{$index}}">Show</button>
+                          </td>
+
+                          <td>
+                            <div id="full_agent{{$index}}" class="modal">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5>
+                                    Cookie
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <div style="white-space: pre-wrap;"><samp><div class="uk-container uk-container-small" style="overflow-y: scroll; max-height:300px;" rows="6">{{$hit.UserAgent}}</div></samp></div>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#full_agent{{$index}}">Show</button>
+                          </td>
+
+                          <td>
+                            <div style="white-space: pre-wrap;"><samp><div class="uk-container uk-container-small" style="overflow-y: scroll; max-height:300px; max-width: 200px;" rows="6">{{$hit.Origin}}</div></samp></div>
+                          </td>
+                          
+                          <td>
+                            <div id="full_size_image_dialog{{$index}}" class="modal">
+                            <div class="modal-dialog modal-dialog-scrollable" style="max-width:1000px;">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5>
+                                    Screenshot
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="screenshot{{$index}}">
+                                  <script>var img = document.createElement("img"); img.class = " figure-img img-fluid border border-dark img-responsive";img.style="max-height:980px;max-width:980px;";img.src="{{$hit.Screen}}";var src=document.getElementById("screenshot{{$index}}"); src.appendChild(img);</script>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#full_size_image_dialog{{$index}}">Show</button></td>
+                        </tr>
+                        {{end}}
+                        {{end}}
+                      </tbody>
+                  </table>
+                </div>
+        <hr class="my-4">
+    </div>
+{{end}}

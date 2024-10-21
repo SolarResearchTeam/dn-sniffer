@@ -1,0 +1,87 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>GODNS</title>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/search.js"></script>
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/search.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+<main class="form-signin">
+  <img class="mb-4" src="/images/logo.png" alt="" width="120" height="120">
+            {{if .Msg}}
+                <div class="alert alert-danger" role="alert">
+                {{.Msg}}
+                </div>
+            {{end}}
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  {{if .OAuth2}}
+  <a href="/oauth?redirect={{.Redirect}}" class="w-100 btn btn-lg btn-primary" role="button"> Sign in with {{.OAuth2Provider}}</a>
+  <hr>
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Local Login
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">   
+    {{end}}
+            <form action="/login" method="POST" class="navbar-form navbar-right" role="form">
+              <div class="form-floating">
+                <input type="username" class="form-control" id="username" name="username" placeholder="name@example.com">
+                <label for="username">Username</label>
+              </div>
+              <div class="form-floating">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                <label for="password">Password</label>
+              </div>
+              <input class="form-control" id="redirect" name="redirect" value="{{.Redirect}}" hidden>
+              <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+              <a href="/restore">Forgot Password?</a>
+            </form>
+     {{if .OAuth2}}
+          </div>
+      </div>
+     </div>
+    </div>
+   {{end}}
+
+</main>
+
+
+    
+  </body>
+</html>
+{{end}}

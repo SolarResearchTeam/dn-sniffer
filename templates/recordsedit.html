@@ -1,0 +1,44 @@
+{{define "body"}}
+
+  <div class="py-5 d-flex justify-content-center">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Edit DNS Record</h4>
+      <form class="needs-validation" method="POST" action="/api/record/{{.Record.Id.Hex}}/edit">
+        <div class="row g-3">
+        
+          <hr class="my-4">
+
+          <div class="col-sm-12">
+            <label for="username" class="form-label">TLD</label>
+            <div class="input-group has-validation">
+            <input type="text" class="form-control" id="tld" name="tld" placeholder="" value="{{.Record.TLD}}" required>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label for="role" class="form-label">Type</label>
+            <select class="form-select" id="type" name="type" required>
+              <option value="A" {{if eq .Record.Type "A"}}{{"selected"}}{{end}}>A</option>
+              <option value="AAAA" {{if eq .Record.Type "AAAA"}}{{"selected"}}{{end}}>AAAA</option>
+              <option value="MX" {{if eq .Record.Type "MX"}}{{"selected"}}{{end}}>MX</option>
+              <option value="TXT" {{if eq .Record.Type "TXT"}}{{"selected"}}{{end}}>TXT</option>
+              <option value="NS" {{if eq .Record.Type "NS"}}{{"selected"}}{{end}}>NS</option>
+              <option value="CNAME" {{if eq .Record.Type "CNAME"}}{{"selected"}}{{end}}>CNAME</option>
+              <option value="PTR" {{if eq .Record.Type "PTR"}}{{"selected"}}{{end}}>PTR</option>
+            </select>
+
+          </div> 
+
+          <div class="col-sm-12">
+            <label for="value" class="form-label">Value</label>
+            <input type="text" class="form-control" id="value" name="value" placeholder="" value="{{.Record.Value}}" required>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <button class="w-100 btn btn-primary btn-lg" type="submit">Edit</button>
+      </form>
+    </div>
+  </div>
+{{end}}

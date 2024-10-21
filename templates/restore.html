@@ -1,0 +1,52 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CPT</title>
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    
+<main class="form-signin">
+  <form action="/restore" method="POST" class="navbar-form navbar-right" role="form">
+    <img class="mb-4" src="/images/logo.png" alt="" width="120" height="120">
+    <h1 class="h3 mb-3 fw-normal">Enter account email</h1>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+      <label for="username">Email</label>
+    </div>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Restore</button>
+    <a href="/login">Back to login</a>
+  </form>
+</main>
+
+
+    
+  </body>
+</html>
+{{end}}
